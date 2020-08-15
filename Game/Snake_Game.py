@@ -36,6 +36,7 @@ def main():
         #appear a new food 
         if eat is True:
             points = len(snake.body)*23 + points
+            #while the new food is in the body of the snake appear a new food
             while food.pos in snake.body:
                 food.pos=((random.randint(1,49)*10),(random.randint(1,49)*10))
         screen.fill((0,0,0))
@@ -43,6 +44,5 @@ def main():
             pygame.draw.rect(screen,(146, 168, 209),(pixel[0],pixel[1],snake.size,snake.size))
         pygame.draw.rect(screen,(247, 202, 201),(food.pos[0],food.pos[1],food.size,food.size))
         pygame.display.update()
-        clock.tick(60)
 
 main()
