@@ -13,14 +13,19 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((screenSize,screenSize))
     running = True
+    pause = False
     while running:
         pygame.time.delay(80)
+        #Display points obtained
         pygame.display.set_caption("Snake points = " + str(points))
         for event in pygame.event.get():
-         if event.type == pygame.QUIT:
-            running = False
+            if event.type == pygame.QUIT:
+                running = False
         key = pygame.key.get_pressed()
-        
+        #Check if is paused the game
+        pause=isPause(key,pause)
+        if pause is True:
+            continue
         newDirection=keyReceived(key,newDirection)
         #check if is a valid new direction
         snake.newdirection(newDirection)
@@ -30,10 +35,9 @@ def main():
         eat=snake.move(food)
         #appear a new food 
         if eat is True:
-            points = len(snake.body)*23 + points
-            #while the new food is in the body of the snake appear a new food
-            while food.pos in snake.body:
-                food.pos=((random.randint(1,49)*10),(random.randint(1,49)*10))
+            points = (len(snake.body)-1)*23 + points
+            food.appearFood(snake)
+        #Draw
         screen.fill((0,0,0))
         for pixel in snake.body:
             pygame.draw.rect(screen,(146, 168, 209),(pixel[0],pixel[1],snake.size,snake.size))
