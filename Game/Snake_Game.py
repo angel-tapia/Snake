@@ -1,13 +1,14 @@
 import pygame
 import random
 from Class_Snake import *
+from Interactions_Py import *
 screenSize = 500
 def main():
     #Initialize game
     snake=Snake()
     food=Food()
-    tempdirection="Left"
     eat=False
+    newDirection="Left"
     points = 0
     pygame.init()
     screen = pygame.display.set_mode((screenSize,screenSize))
@@ -19,16 +20,10 @@ def main():
          if event.type == pygame.QUIT:
             running = False
         key = pygame.key.get_pressed()
-        if key[pygame.K_DOWN]:
-            tempdirection="Down"
-        if key[pygame.K_UP]:
-            tempdirection="Up"
-        if key[pygame.K_RIGHT]:
-            tempdirection="Right"
-        if key[pygame.K_LEFT]:
-            tempdirection="Left"
+        
+        newDirection=keyReceived(key,newDirection)
         #check if is a valid new direction
-        snake.newdirection(tempdirection)
+        snake.newdirection(newDirection)
         #check if I'm in the screen
         running = snake.valid()
         #a bool if I am in the position of the food
