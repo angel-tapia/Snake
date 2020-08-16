@@ -1,52 +1,65 @@
 import pygame
 import random
+from Constants import *
 from Class_Snake import *
 from Interactions_Py import *
-screenSize = 500
-def main():
-    #Initialize game
-    snake = Snake()
-    food = Food()
-    eat = False
-    newDirection = "Left"
-    points = 0
-    pygame.init()
-    screen = pygame.display.set_mode((screenSize,screenSize))
-    running = True
-    pause = False
 
-    while running:
+class Game:
+
+    def __init__(self):
+        self.snake = Snake()
+        self.food = Food()
+        self.eat = False
+        self.newDirection = "Left"
+        self.points = 0
+        pygame.init()
+        self.screen = pygame.display.set_mode((screenSize,screenSize))
+        self.running = True
+        self.pause = False
+
+    def simulate(self):
         pygame.time.delay(80)
-        #Display points obtained
-        pygame.display.set_caption("Snake points = " + str(points))
+        #Check if is finished 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
-        key = pygame.key.get_pressed()
+                self.running = False
+                return
+
+        #receive key
+        self.key = pygame.key.get_pressed()
+
         #Check if is paused the game
-        pause = isPause(key,pause)
-        if pause is True:
-            key = pygame.K_u
-            continue
-        newDirection = keyReceived(key,newDirection)
+        self.pause = isPause(self.key, self.pause)
+        if self.pause is True:
+            self.key = pygame.K_u
+            return
+
         #check if is a valid new direction
-        snake.setDirection(newDirection)
+        self.newDirection = parsingKey(self.key, self.newDirection)
+        self.snake.setDirection(self.newDirection)
+
         #check if I'm in the screen
-        if snake.valid() is False:
-            running = False
+        if self.snake.valid() is False:
+            self.running = False
+            return
+
         #move the snake
-        snake.move()
+        self.snake.move()
+
         #appear a new food if I'm in the position of the food
-        if food.pos in snake.body:
-            points = (len(snake.body)-1)*23 + points
-            food.appearFood(snake)
+        if self.food.pos in self.snake.body:
+            self.points = (len(self.snake.body)-1)*random.randint(1,13) + self.points
+            self.food.appearFood(self.snake)
         else :
-            snake.pop() 
+            self.snake.pop()
+
+    def draw(self):
+        #Display points obtained actually
+        pygame.display.set_caption("Snake points = " + str(self.points))
         #Draw
-        screen.fill((0,0,0))
-        for pixel in snake.body:
-            pygame.draw.rect(screen,(146, 168, 209),(pixel[0],pixel[1],snake.size,snake.size))
-        pygame.draw.rect(screen,(247, 202, 201),(food.pos[0],food.pos[1],food.size,food.size))
+        self.screen.fill((0,0,0))
+        for pixel in self.snake.body:
+            pygame.draw.rect(self.screen,(146, 168, 209),(pixel[0],pixel[1],pixelSize,pixelSize))
+        pygame.draw.rect(self.screen,(247, 202, 201),(self.food.pos[0],self.food.pos[1],pixelSize,pixelSize))
         pygame.display.update()
 
-main()
