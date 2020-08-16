@@ -14,7 +14,7 @@ def main():
     screen = pygame.display.set_mode((screenSize,screenSize))
     running = True
     pause = False
-    
+
     while running:
         pygame.time.delay(80)
         #Display points obtained
@@ -30,15 +30,18 @@ def main():
             continue
         newDirection = keyReceived(key,newDirection)
         #check if is a valid new direction
-        snake.newDirection(newDirection)
+        snake.setDirection(newDirection)
         #check if I'm in the screen
-        running = snake.valid()
-        #a bool if I am in the position of the food
-        eat = snake.move(food)
-        #appear a new food 
-        if eat is True:
+        if snake.valid() is False:
+            running = False
+        #move the snake
+        snake.move()
+        #appear a new food if I'm in the position of the food
+        if food.pos in snake.body:
             points = (len(snake.body)-1)*23 + points
             food.appearFood(snake)
+        else :
+            snake.pop() 
         #Draw
         screen.fill((0,0,0))
         for pixel in snake.body:
