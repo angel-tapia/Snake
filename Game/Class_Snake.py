@@ -6,6 +6,7 @@ class Snake:
         #body[i][0]=x and body[i][1]=y
         self.body=[(screenSize/2,screenSize/2),(screenSize/2,screenSize/2+self.size)]
         self.direction = "Left"
+        
     def move(self, food):
         mov =[(-self.speed,0),(self.speed,0),(0,-self.speed),(0,self.speed) ]
         directions = ["Left","Right","Up","Down"]
