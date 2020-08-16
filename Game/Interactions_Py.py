@@ -10,9 +10,9 @@ def keyReceived(key,direction):
         direction="Left"
     return direction
 
-def pause(key):
+def isPause(key,pause):
     if key[pygame.K_p]:
-        while key[pygame.K_d]:
-            key = pygame.key.get_pressed()
-            delay(1000)
-        
+        pause = True
+    if key[pygame.K_u]:   
+        pause = False
+    return pause
