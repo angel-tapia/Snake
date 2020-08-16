@@ -56,6 +56,7 @@ class Game:
     def draw(self):
         #Display points obtained actually
         pygame.display.set_caption("Snake points = " + str(self.points))
+        
         #Draw
         self.screen.fill((0,0,0))
         for pixel in self.snake.body:
