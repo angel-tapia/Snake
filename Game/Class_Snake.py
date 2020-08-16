@@ -1,26 +1,23 @@
 import pygame
 import random
-screenSize = 500
-directions = ["Left","Up","Right","Down"]
+from Constants import *
+
 class Snake:
+
     def __init__ (self):
-        self.size = 10
-        self.speed = 10
-        #body[i][0]=x and body[i][1]=y
-        self.body = [(screenSize/2,screenSize/2)]
+        initPos = screenSize/2
+        self.body = [ (initPos, initPos) ]
         self.direction = "Left"
 
     def move(self):
-        mov = [(-self.speed,0),(0,-self.speed),(self.speed,0),(0,self.speed) ]
-        (x,y)=self.body[0]
-        idx = directions.index(self.direction)
-        (dx,dy)=mov[idx]
-        newHead = (x+dx,y+dy)
-        self.body.insert(0,newHead)
+        (x, y) = self.body[0]
+        (dx, dy) = movMap[self.direction]
+        newHead = (x+dx, y+dy)
+        self.body.insert(0, newHead)
 
     def valid(self):
-        (x,y) = self.body[0]
-        if x < 0 or x > screenSize-self.size or y < 0 or y > screenSize-self.size:
+        (x, y) = self.body[0]
+        if x < 0 or x > screenSize-pixelSize or y < 0 or y > screenSize-pixelSize:
             return False
         head = self.body[0]
         if self.body.count(head) > 1:
@@ -40,11 +37,13 @@ class Snake:
         self.body.pop()
 
 class Food:
-    def __init__ (self):
-        self.size = 10
-        self.pos = ((random.randint(1,49)*10),(random.randint(1,49)*10))
+    def generateCoords(self):
+        return (random.randint(1, lim)*pixelSize, random.randint(1, lim)*pixelSize)
 
     def appearFood(self, snake):
          #while the new food is in the body of the snake appear a new food
         while self.pos in snake.body:
-            self.pos = ((random.randint(1,49)*10),(random.randint(1,49)*10))
+            self.pos = self.generateCoords()
+
+    def __init__ (self):
+        self.pos = self.generateCoords()
