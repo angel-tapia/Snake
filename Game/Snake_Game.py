@@ -5,15 +5,16 @@ from Interactions_Py import *
 screenSize = 500
 def main():
     #Initialize game
-    snake=Snake()
-    food=Food()
-    eat=False
-    newDirection="Left"
+    snake = Snake()
+    food = Food()
+    eat = False
+    newDirection = "Left"
     points = 0
     pygame.init()
     screen = pygame.display.set_mode((screenSize,screenSize))
     running = True
     pause = False
+    
     while running:
         pygame.time.delay(80)
         #Display points obtained
@@ -23,16 +24,17 @@ def main():
                 running = False
         key = pygame.key.get_pressed()
         #Check if is paused the game
-        pause=isPause(key,pause)
+        pause = isPause(key,pause)
         if pause is True:
+            key = pygame.K_u
             continue
-        newDirection=keyReceived(key,newDirection)
+        newDirection = keyReceived(key,newDirection)
         #check if is a valid new direction
-        snake.newdirection(newDirection)
+        snake.newDirection(newDirection)
         #check if I'm in the screen
         running = snake.valid()
         #a bool if I am in the position of the food
-        eat=snake.move(food)
+        eat = snake.move(food)
         #appear a new food 
         if eat is True:
             points = (len(snake.body)-1)*23 + points
