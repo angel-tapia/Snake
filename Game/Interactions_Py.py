@@ -1,13 +1,15 @@
 import pygame
-def keyReceived(key, direction):
+from Constants import *
+
+def parsingKey(key, direction):
     if key[pygame.K_DOWN]:
-        direction = "Down"
+        return "Down"
     if key[pygame.K_UP]:
-        direction = "Up"
+        return "Up"
     if key[pygame.K_RIGHT]:
-        direction = "Right"
+        return "Right"
     if key[pygame.K_LEFT]:
-        direction = "Left"
+        return "Left"
     return direction
 
 def isPause(key, pause):
