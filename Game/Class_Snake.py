@@ -1,3 +1,5 @@
+import pygame
+import random
 screenSize = 500
 class Snake:
     def __init__ (self):
@@ -6,7 +8,7 @@ class Snake:
         #body[i][0]=x and body[i][1]=y
         self.body=[(screenSize/2,screenSize/2),(screenSize/2,screenSize/2+self.size)]
         self.direction = "Left"
-        
+
     def move(self, food):
         mov =[(-self.speed,0),(self.speed,0),(0,-self.speed),(0,self.speed) ]
         directions = ["Left","Right","Up","Down"]
@@ -38,4 +40,9 @@ class Snake:
 class Food:
     def __init__ (self):
         self.size=10
-        self.pos=(30,30)
+        self.pos=((random.randint(1,49)*10),(random.randint(1,49)*10))
+
+    def appearFood(self, snake):
+         #while the new food is in the body of the snake appear a new food
+        while self.pos in snake.body:
+            self.pos=((random.randint(1,49)*10),(random.randint(1,49)*10))
