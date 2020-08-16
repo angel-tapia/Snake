@@ -10,17 +10,13 @@ class Snake:
         self.body = [(screenSize/2,screenSize/2)]
         self.direction = "Left"
 
-    def move(self, food):
+    def move(self):
         mov = [(-self.speed,0),(0,-self.speed),(self.speed,0),(0,self.speed) ]
         (x,y)=self.body[0]
         idx = directions.index(self.direction)
         (dx,dy)=mov[idx]
         newHead = (x+dx,y+dy)
         self.body.insert(0,newHead)
-        if newHead == food.pos:
-            return True
-        self.body.pop()
-        return False
 
     def valid(self):
         (x,y) = self.body[0]
@@ -31,11 +27,17 @@ class Snake:
             return False
         return True
 
-    def newDirection(self, direction):
+    def setDirection(self, direction):
+        if len(self.body) is 1:
+            self.direction = direction
+            return
         indexDir = directions.index(self.direction)
         indexNewDir = directions.index(direction)
         if (indexDir+2)%4 is not indexNewDir:
             self.direction = direction
+
+    def pop(self):
+        self.body.pop()
 
 class Food:
     def __init__ (self):
