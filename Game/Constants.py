@@ -10,3 +10,4 @@ movMap = {
     "Right" : (speed, 0),
     "Down"  : (0, speed),
 }
+lim = ((screenSize//pixelSize)-1)
