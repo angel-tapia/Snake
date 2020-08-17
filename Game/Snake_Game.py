@@ -16,6 +16,7 @@ class Game:
         self.screen = pygame.display.set_mode((screenSize,screenSize))
         self.running = True
         self.pause = False
+        self.end = True
 
     def simulate(self):
         pygame.time.delay(80)
@@ -56,11 +57,25 @@ class Game:
     def draw(self):
         #Display points obtained actually
         pygame.display.set_caption("Snake points = " + str(self.points))
-        
+
         #Draw
-        self.screen.fill((0,0,0))
+        self.screen.fill(black)
         for pixel in self.snake.body:
             pygame.draw.rect(self.screen,(146, 168, 209),(pixel[0],pixel[1],pixelSize,pixelSize))
         pygame.draw.rect(self.screen,(247, 202, 201),(self.food.pos[0],self.food.pos[1],pixelSize,pixelSize))
+        pygame.display.update()
+
+    def over(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.end = False
+                return
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        text = font.render('Game over', True, red, black)
+        textObj = text.get_rect()
+        textObj.center = (screenSize // 2, screenSize // 2)
+        for pixel in self.snake.body:
+            pygame.draw.rect(self.screen,(100, 0, 0,),(pixel[0],pixel[1],pixelSize,pixelSize))
+        self.screen.blit(text, textObj)
         pygame.display.update()
 
