@@ -10,3 +10,5 @@ if __name__ == '__main__':
     while game.running :
         game.simulate()
         game.draw()
+    while game.end:
+        game.over()
